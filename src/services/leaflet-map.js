@@ -133,7 +133,6 @@ export class LeafletMap {
     this.overlays[layerTitle].eachLayer(function (layer) {
       if (layer instanceof L.Marker) {
         layer.setOpacity(0);
-        layer.d
       }
     });
   }
