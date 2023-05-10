@@ -1,8 +1,8 @@
 <script>
-import {getContext} from "svelte";
-import {push} from "svelte-spa-router";
+  import { getContext } from "svelte";
+  import { push } from "svelte-spa-router";
 
-const beerconomyService = getContext("BeerconomyService")
-beerconomyService.logout()
-push("/")
+  const beerconomyService = getContext("BeerconomyService");
+  beerconomyService.logout();
+  push("/");
 </script>

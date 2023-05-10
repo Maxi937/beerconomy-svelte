@@ -1,12 +1,26 @@
 <script>
     import Map from "../components/Map.svelte";
-    import {getContext} from "svelte";
     import { user } from "../stores";
+    import {createEventDispatcher, getContext, onMount} from "svelte";
+    import Review from "../components/Review.svelte";
+
+
+    const beerconomyService = getContext("BeerconomyService");
+
+    let reviews = []
+
+    onMount(async () => {
+    reviews = await beerconomyService.getAllReviews()
+  });
+
   </script>
 
-
-  <Map/>
+  <div>
+    <Map/>
+  </div>
 
   <div>
-    email: { $user.email}
+    {#each reviews as review}
+      <Review review = {review}/>
+    {/each}
   </div>

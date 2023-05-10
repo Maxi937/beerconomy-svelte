@@ -11,7 +11,6 @@
   import {wrap} from "svelte-spa-router/wrap"
 
   let url
-
   if (import.meta.env.dev) {
     url = import.meta.env.VITE_BACKEND_URL_DEV
   } else {
@@ -28,6 +27,8 @@ async function checkTokenExpired() {
     }
 }
 
+// TODO: there are pre conditions on the routes to check if the token has expired before proceeding, if the token is expired - logout() is called with deletes the user, a listener is needed to reresh the token or push back to login
+// This solution is very basic and does not account for the token being expired whilst in a page and interacting with components.
 
   const routes = {
     "/": wrap({

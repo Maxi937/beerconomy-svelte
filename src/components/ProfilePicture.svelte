@@ -1,53 +1,38 @@
 <script>
-  import {createEventDispatcher, getContext, onMount} from "svelte";
+  import { createEventDispatcher, getContext, onMount } from "svelte";
 
   const beerconomyService = getContext("BeerconomyService");
 
-  let message = ""
+  let message = "";
   let profilepicture = {};
   let uploads;
 
-
   onMount(async () => {
-    profilepicture = await beerconomyService.getProfilePicture()
+    profilepicture = await beerconomyService.getProfilePicture();
   });
 
   async function updateProfilePicture() {
-    const success = await beerconomyService.updateProfilePicture(uploads[0])
+    const success = await beerconomyService.updateProfilePicture(uploads[0]);
 
     if (!success) {
-      message = "Something went wrong"
+      message = "Something went wrong";
     } else {
-      uploads = []
-      profilepicture = await beerconomyService.getProfilePicture()
+      uploads = [];
+      profilepicture = await beerconomyService.getProfilePicture();
     }
-
   }
 </script>
 
-
 <div class="box">
   <figure class="image is-flex is-justify-content-center">
-    <img
-      class="is-rounded"
-      src="data:{profilepicture.contentType};base64,{profilepicture.data}"
-      alt="Placeholder"
-      style="width:280px; height:280px;"
-    />
+    <img class="is-rounded" src="data:{profilepicture.contentType};base64,{profilepicture.data}" alt="Placeholder" style="width:280px; height:280px;" />
   </figure>
 </div>
-
 
 <form on:submit|preventDefault={updateProfilePicture} enctype="multipart/form-data">
   <div id="profilepicture" class="file has-name">
     <label class="file-label">
-      <input
-        bind:files={uploads}
-        class="file-input"
-        type="file"
-        name="profilepicture"
-        accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps"
-      />
+      <input bind:files={uploads} class="file-input" type="file" name="profilepicture" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" />
       <span class="file-cta">
         <span class="file-icon">
           <i class="fas fa-upload" />
@@ -60,7 +45,7 @@
     </label>
   </div>
   <br />
-  
+
   <div class="field">
     <p class="control">
       <button class="button is-success"> Submit </button>
@@ -69,9 +54,9 @@
 </form>
 
 {#if message}
-<div class = "section">
-  <div class = box>
-    {message}
+  <div class="section">
+    <div class="box">
+      {message}
+    </div>
   </div>
-</div>
 {/if}

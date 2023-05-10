@@ -51,8 +51,5 @@
 {/if}
 
 <style>
-  #menu-container {
-    margin-bottom: 50px;
-    margin-top: 15px;
-  }
+
 </style>

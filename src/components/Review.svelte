@@ -44,7 +44,7 @@
     <div class="is-flex is-justify-content-end" id="delete">
       <button class="button is-ghost" on:click={deleteReview}>
         <span class="icon">
-          <i class="fas fa-trash" />
+          <ion-icon name="close-sharp"></ion-icon>
         </span>
       </button>
     </div>
@@ -80,3 +80,15 @@
     </div>
   </div>
 </div>
+
+<style>
+
+.card {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 50px;
+}
+
+
+
+</style>
