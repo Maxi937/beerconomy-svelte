@@ -1,21 +1,59 @@
 <script>
-  import {setContext} from "svelte";
+  import {getContext, setContext} from "svelte";
+  import { user } from "./stores";
   import {BeerconomyService} from "./services/beerconomy-service";
   import TitleBar from "./components/TitleBar.svelte";
   import Main from "./pages/Main.svelte"
   import Login from "./pages/Login.svelte";
-  import Router from "svelte-spa-router";
+  import Router, { push } from "svelte-spa-router";
   import Logout from "./components/Logout.svelte";
   import Profile from "./pages/Profile.svelte";
+  import {wrap} from "svelte-spa-router/wrap"
 
-  setContext("BeerconomyService", new BeerconomyService("http://localhost:4000"));
+  let url
+
+  if (import.meta.env.dev) {
+    url = import.meta.env.VITE_BACKEND_URL_DEV
+  } else {
+    url = import.meta.env.VITE_BACKEND_URL_PROD
+  }
+
+  setContext("BeerconomyService", new BeerconomyService(url));
+  const beerconomyService = getContext("BeerconomyService");
+
+async function checkTokenExpired() {
+    const expired = await beerconomyService.checkTokenExpired($user.token)
+    if (expired) {
+      beerconomyService.logout()
+    }
+}
 
 
-  let routes = {
-    "/": Main,
+  const routes = {
+    "/": wrap({
+      component: Main,
+      conditions: [
+        (detail) => {
+          if($user.token) {
+            checkTokenExpired()
+          }
+          return true
+        }
+      ]
+    }),
     "/login": Login,
     "/logout": Logout,
-    "/profile": Profile
+    "/profile": wrap({
+      component: Profile,
+      conditions: [
+        (detail) => {
+          if($user.token) {
+            checkTokenExpired()
+          }
+          return true
+        }
+      ]
+    }),
   }
 </script>
 

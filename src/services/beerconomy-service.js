@@ -35,6 +35,15 @@ export class BeerconomyService {
         }
     }
 
+    async checkTokenExpired(token) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/api/profile/checkToken`, token);
+            return response.data;
+        } catch (error) {
+            return true;
+        }
+    }
+
     async logout() {
         user.set({
             email: "",
