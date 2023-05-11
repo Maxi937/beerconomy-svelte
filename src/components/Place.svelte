@@ -1,0 +1,32 @@
+<div id="placeDetails">
+    <div class="card">
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-128x128">
+              <img class="is-rounded" id="placeImage" src="https://bulma.io/images/placeholders/96x96.png"
+                alt="Placeholder image">
+            </figure>
+          </div>
+          <div class="media-content">
+            <p class="title is-4" id="placeName"></p>
+            <p class="subtitle is-6" id="placeAddress"></p>
+            <p class="subtitle is-6" id="placeRating"></p>
+          </div>
+          <a class="button is-info is-pulled-right" onclick="openReviewForm()">
+            <span class="icon is-large">
+              <i class="fas fa-book-open"></i>
+            </span>
+            <span>Review</span>
+          </a>
+        </div>
+  
+        <div class="content">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+          <a href="#">#css</a> <a href="#">#responsive</a>
+          <br>
+          <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+        </div>
+      </div>
+    </div>

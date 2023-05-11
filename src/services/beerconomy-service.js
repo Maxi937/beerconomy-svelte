@@ -68,9 +68,22 @@ export class BeerconomyService {
     }
   }
 
-  async donate(donation) {
+  async addPlace(place) {
     try {
-      const response = await axios.post(this.baseUrl + "/api/candidates/" + donation.candidate + "/donations", donation);
+      const response = await axios.post(`${this.baseUrl}/api/places`, place);
+      if (response.status == 200) {
+        return true;
+      } else {
+        return false
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async addPlacePhoto(id, photo) {
+    try {
+      const response = await axios.post(`${this.baseUrl}/api/places/${id}/photos`, photo);
       return response.status == 200;
     } catch (error) {
       return false;
@@ -95,12 +108,21 @@ export class BeerconomyService {
     }
   }
 
-  async getPlaces() {
+  async getAllPlaces() {
     try {
       const response = await axios.get(this.baseUrl + "/api/places");
       return response.data;
     } catch (error) {
       return [];
+    }
+  }
+
+  async getPlaceLatLng(lat, lng) {
+    try {
+      const response = await axios.get(`${this.baseUrl}/api/places/lat=${lat}lng=${lng}`);
+      return response.data;
+    } catch (error) {
+      return {};
     }
   }
 

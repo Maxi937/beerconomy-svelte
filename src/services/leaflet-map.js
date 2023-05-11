@@ -33,16 +33,27 @@ export class LeafletMap {
     });
 
     this.imap.on("click", (e) => {
-      this.clickmarker.remove();
-      this.clickmarker = L.marker(e.latlng);
-      this.clickmarker.bindPopup(`
-          <button class="button is-small is-primary has-text-centered" onclick="">
+      this.clickmarkerBehaviour(e);
+    });
+  }
+
+  markerBehaviour(e) {
+    this.closeAllPopups();
+    e.target.openPopup();
+    this.deleteClickMarker();
+  }
+
+  clickmarkerBehaviour(e) {
+    this.closeAllPopups();
+    this.clickmarker.remove();
+    this.clickmarker = L.marker(e.latlng);
+    this.clickmarker.addTo(this.imap);
+    this.clickmarker.bindPopup(`
+          <button class="button is-small is-primary has-text-centered" id="addPlace-${this.clickmarker._leaflet_id}">
             Add a place
           </button>`);
-      this.clickmarker.addTo(this.imap);
-      this.clickmarker.openPopup();
-      this.moveTo(this.imap.zoom, e.latlng);
-    });
+    this.clickmarker.openPopup();
+    this.moveTo(this.imap.zoom, e.latlng);
   }
 
   addLayer(title, layer) {
@@ -98,6 +109,9 @@ export class LeafletMap {
       group = this.overlays[layerTitle];
     }
     marker.addTo(group);
+    marker.on("click", (e) => {
+      this.markerBehaviour(e);
+    });
     return marker;
   }
 
@@ -118,7 +132,7 @@ export class LeafletMap {
   }
 
   deleteClickMarker() {
-    this.imap.removeLayer(this.clickmarker)
+    this.imap.removeLayer(this.clickmarker);
   }
 
   deleteAllMarkers() {
@@ -143,5 +157,35 @@ export class LeafletMap {
         layer.setOpacity(100);
       }
     });
+  }
+
+  closeAllPopups() {
+    this.imap.eachLayer(function (layer) {
+      if (layer instanceof L.Marker) {
+        layer.closePopup();
+      }
+    });
+  }
+
+  getMarkerById(id) {
+    this.imap.eachLayer(function (layer) {
+      if (layer instanceof L.Marker) {
+        if (layer._leaflet_id === id) {
+          return layer;
+        }
+      }
+    });
+  }
+
+  getMarkerByLatLng(latlng) {
+    this.imap.eachLayer(function (layer) {
+      if (layer instanceof L.Marker) {
+        console.log(layer);
+      }
+    });
+  }
+
+  getClickMarker() {
+    return this.clickmarker;
   }
 }

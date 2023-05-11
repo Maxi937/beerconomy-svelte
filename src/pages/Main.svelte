@@ -1,26 +1,35 @@
 <script>
-    import Map from "../components/Map.svelte";
-    import { user } from "../stores";
-    import {createEventDispatcher, getContext, onMount} from "svelte";
-    import Review from "../components/Review.svelte";
+  import Map from "../components/Map.svelte";
+  import { setContext } from "svelte";
+  import { user } from "../stores";
+  import { createEventDispatcher, getContext, onMount } from "svelte";
+  import Review from "../components/Review.svelte";
+
+  const beerconomyService = getContext("BeerconomyService");
+
+  let reviews = [];
+  let place
 
 
-    const beerconomyService = getContext("BeerconomyService");
-
-    let reviews = []
-
-    onMount(async () => {
-    reviews = await beerconomyService.getAllReviews()
+  onMount(async () => {
+    reviews = await beerconomyService.getAllReviews();
   });
 
-  </script>
+  async function handlePlaceSelected(event){
+    console.log(event.detail.place)
+  }
+</script>
 
-  <div>
-    <Map/>
-  </div>
+<div>
+  <Map on:placeselected={handlePlaceSelected}/>
+</div>
 
-  <div>
-    {#each reviews as review}
-      <Review review = {review}/>
-    {/each}
-  </div>
+{#if place}
+  <div class="box">Im a div</div>
+{/if}
+
+<div>
+  {#each reviews as review}
+    <Review {review} />
+  {/each}
+</div>
