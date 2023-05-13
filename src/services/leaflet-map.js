@@ -113,7 +113,6 @@ export class LeafletMap {
   }
 
   addLayer(title, layer) {
-    console.log("adding layer", title)
     this.overlays[title] = layer;
     this.imap.addLayer(layer);
   }
@@ -128,7 +127,6 @@ export class LeafletMap {
   }
 
   removeLayerControl(layerTitle) {
-    console.log(this.overlays[layerTitle]);
     this.control = L.control.layers(this.overlays).remove();
   }
 
@@ -159,14 +157,12 @@ export class LeafletMap {
       marker.bindPopup(popup);
     }
     if (!this.overlays[layerTitle]) {
-      console.log("adding marker to", layerTitle)
       group = L.layerGroup([]);
       this.overlays[layerTitle] = group;
       this.imap.addLayer(group);
     } else {
       group = this.overlays[layerTitle];
     }
-    console.log("adding marker to", group)
     marker.addTo(group);
     this.markerBehaviour(marker);
 

@@ -18,7 +18,6 @@
 
   onMount(async () => {
     likes = await beerconomyService.getLikes(review._id);
-    console.log(likes);
     userProfile = await beerconomyService.getUserProfile(review.user); // THis value should be hashed in the review model
   });
 
@@ -38,7 +37,6 @@
     if (!success) {
       alert("Something went wrong");
     } else {
-      //console.log("deleting review");
       dispatch("reviewDeleted");
     }
   }
@@ -54,6 +52,7 @@
       likes = await beerconomyService.getLikes(review._id);
     }
   }
+  
 </script>
 
 <div class="card">

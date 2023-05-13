@@ -22,24 +22,12 @@
   });
 
   async function handlePlaceSelected(event) {
-    place = event.detail.place;
-    reviews = await beerconomyService.getPlaceReviews(place._id);
-    rating = getAvgFromReviews(reviews);
+    place = ""
+    place = await event.detail.place;
   }
 
   async function handleReviewAdded() {
     reviews = await beerconomyService.getPlaceReviews(place._id);
-    rating = getAvgFromReviews(reviews);
-  }
-
-  function getAvgFromReviews(reviews) {
-    console.log(reviews);
-    let sum = 0;
-
-    for (let i = 0; i < reviews.length; i++) {
-      sum = reviews[i].rating + sum;
-    }
-    return sum / reviews.length;
   }
 </script>
 
@@ -49,7 +37,7 @@
 
 {#if place}
   <div class="box">
-    <Place {place} {rating} on:reviewAdded={handleReviewAdded} />
+    <Place place={place} on:reviewAdded={handleReviewAdded} />
   </div>
 {:else}
   <div class="box">
@@ -77,12 +65,14 @@
   </div>
 {/if}
 
-{#if reviews[0]}
-  <div>
-    {#each reviews as review}
-      <Review {review} />
-    {/each}
-  </div>
+{#if !place}
+  {#if reviews[0]}
+    <div>
+      {#each reviews as review}
+        <Review {review} />
+      {/each}
+    </div>
+  {/if}
 {/if}
 
 <style>

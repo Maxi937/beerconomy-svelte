@@ -111,8 +111,6 @@ export class BeerconomyService {
   async getLikes(id) {
     try {
       const response = await axios.get(`${this.baseUrl}/api/likes/${id}`);
-
-      console.log(response.data)
       if (response.status == 200) {
         return response.data.length
       }
