@@ -87,10 +87,36 @@ export class BeerconomyService {
     }
   }
 
+  async likeReview(id, like) {
+    try {
+      const response = await axios.post(`${this.baseUrl}/api/likes/${id}`, like);
+      if (response.status == 200) {
+        return true
+      }
+      return false;
+    } catch (error) {
+      return [];
+    }
+  }
+
   async getPlaceReviews(id) {
     try {
       const response = await axios.get(`${this.baseUrl}/api/places/${id}/reviews`);
       return response.data;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async getLikes(id) {
+    try {
+      const response = await axios.get(`${this.baseUrl}/api/likes/${id}`);
+
+      console.log(response.data)
+      if (response.status == 200) {
+        return response.data.length
+      }
+      return 0;
     } catch (error) {
       return [];
     }

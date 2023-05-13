@@ -28,10 +28,10 @@
 
     if (!success) {
       message = "Please use a different email";
-      return []
-    } 
-      push("/");
-      dispatch("signup")
+      return [];
+    }
+    push("/");
+    dispatch("signup");
   }
 </script>
 

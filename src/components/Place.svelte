@@ -6,7 +6,7 @@
   import Router, { push } from "svelte-spa-router";
 
   export let place;
-  export let rating
+  export let rating;
   let showReviewForm;
   const dispatch = createEventDispatcher();
   const beerconomyService = getContext("BeerconomyService");
@@ -22,12 +22,12 @@
   }
 
   function handleReviewAdded() {
-    closeReviewForm()
-    dispatch("reviewAdded")
+    closeReviewForm();
+    dispatch("reviewAdded");
   }
 
   function pushSignUp() {
-    push("/signup")
+    push("/signup");
   }
 
   function stars(rating) {
@@ -39,7 +39,7 @@
       icons += `<span class="icon"><i class="fas fa-star"></i></span>`;
     }
     return icons;
-  };
+  }
 </script>
 
 {#if showReviewForm}
@@ -54,7 +54,7 @@
             </span>
           </button>
         </div>
-        <AddReviewForm place={place} on:reviewAdded={handleReviewAdded} />
+        <AddReviewForm {place} on:reviewAdded={handleReviewAdded} />
       </div>
     </div>
     <button class="modal-close is-large" aria-label="close" />
@@ -75,27 +75,26 @@
         <p class="subtitle is-6" id="placeRating">{@html stars(rating)}</p>
       </div>
       {#if $user.token}
-      <button class="button is-info is-pulled-right" on:click={openReviewForm}>
-        <span class="icon is-large">
-          <i class="fas fa-book-open" />
-        </span>
-        <span>Review</span>
-      </button>
+        <button class="button is-info is-pulled-right" on:click={openReviewForm}>
+          <span class="icon is-large">
+            <i class="fas fa-book-open" />
+          </span>
+          <span>Review</span>
+        </button>
       {:else}
-      <button class="button is-info is-pulled-right" on:click={pushSignUp}>
-        <span class="icon is-large">
-          <i class="fas fa-book-open" />
-        </span>
-        <span>Sign Up to leave a review</span>
-      </button>
+        <button class="button is-info is-pulled-right" on:click={pushSignUp}>
+          <span class="icon is-large">
+            <i class="fas fa-book-open" />
+          </span>
+          <span>Sign Up to leave a review</span>
+        </button>
       {/if}
-
     </div>
 
     {#if place.description}
-    <div class="content">
-      {place.description}
-    </div>
+      <div class="content">
+        {place.description}
+      </div>
     {/if}
   </div>
 </div>

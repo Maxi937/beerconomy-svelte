@@ -37,7 +37,7 @@
       let newplace = await beerconomyService.getPlaceLatLng(place.lat, place.lng);
       console.log(newplace._id);
       await beerconomyService.addPlacePhoto(newplace._id, place.picture[0]);
-      dispatch("placeAdded")
+      dispatch("placeAdded");
     }
   }
 </script>

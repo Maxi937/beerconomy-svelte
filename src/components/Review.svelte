@@ -1,6 +1,7 @@
 <script>
-  import {createEventDispatcher, getContext, onMount} from "svelte";
-  import { getLongDate }from "../services/moment"
+  import { createEventDispatcher, getContext, onMount } from "svelte";
+  import { getLongDate } from "../services/moment";
+  import { user } from "../stores";
 
   const beerconomyService = getContext("BeerconomyService");
 
@@ -11,10 +12,13 @@
     profilepicture: true,
   };
   let userProfile = {};
+  let likes;
 
   const dispatch = createEventDispatcher();
 
   onMount(async () => {
+    likes = await beerconomyService.getLikes(review._id);
+    console.log(likes);
     userProfile = await beerconomyService.getUserProfile(review.user); // THis value should be hashed in the review model
   });
 
@@ -27,7 +31,7 @@
       icons += `<span class="icon"><i class="fas fa-star"></i></span>`;
     }
     return icons;
-  };
+  }
 
   async function deleteReview() {
     const success = beerconomyService.deleteReview(review._id);
@@ -38,6 +42,18 @@
       dispatch("reviewDeleted");
     }
   }
+
+  async function likeReview() {
+    const like = {
+      review: review._id,
+      user: $user.token,
+    };
+    const success = await beerconomyService.likeReview(review._id, like);
+
+    if (success) {
+      likes = await beerconomyService.getLikes(review._id);
+    }
+  }
 </script>
 
 <div class="card">
@@ -45,7 +61,7 @@
     <div class="is-flex is-justify-content-end" id="delete">
       <button class="button is-ghost" on:click={deleteReview}>
         <span class="icon">
-          <ion-icon name="close-sharp"></ion-icon>
+          <ion-icon name="close-sharp" />
         </span>
       </button>
     </div>
@@ -76,20 +92,54 @@
       <div class="content" id="reviewRating">{@html stars(review.rating)}</div>
     </div>
     <div class="content" id="reviewContent">{review.content}</div>
-    <div class="is-flex is-justify-content-end" id="socials">
-      <span class="tag">{review.place.placeName}</span>
+    <div class="columns">
+      <div class="column is-flex is-justify-content-start" id="socials">
+        <span class="icon is-tiny">
+          <button on:click={likeReview} class="is-normal" id="like"><i class="fas fa-thumbs-up" /></button>
+        </span>
+        {#if likes}
+          &ensp; {likes}
+        {/if}
+      </div>
+      <div class="column is-flex is-justify-content-end" id="socials">
+        <span class="tag">{review.place.placeName}</span>
+      </div>
     </div>
   </div>
 </div>
 
 <style>
+  .card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+  }
 
-.card {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-radius: 50px;
-}
+  #like:hover {
+    color: blue;
+    transition: all 0.3s ease-in-out;
+  }
 
+  #like:active {
+    border-color: black;
+    outline: none !important;
+  }
 
+  #like:focus {
+    border: none !important;
+    outline: none !important;
+  }
 
+  #like {
+    color: rgb(104, 104, 255);
+    outline: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  * {
+    font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 500;
+  }
 </style>

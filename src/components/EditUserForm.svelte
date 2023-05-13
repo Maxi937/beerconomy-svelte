@@ -1,5 +1,5 @@
 <script>
-  import {createEventDispatcher, getContext, onMount} from "svelte";
+  import { createEventDispatcher, getContext, onMount } from "svelte";
 
   const beerconomyService = getContext("BeerconomyService");
 

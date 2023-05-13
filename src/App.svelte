@@ -10,6 +10,7 @@
   import Logout from "./components/Logout.svelte";
   import Profile from "./pages/Profile.svelte";
   import {wrap} from "svelte-spa-router/wrap"
+  import About from "./pages/About.svelte";
 
   let url
   if (import.meta.env.dev) {
@@ -45,6 +46,7 @@ async function checkTokenExpired() {
       ]
     }),
     "/login": Login,
+    "/about": About,
     "/logout": Logout,
     "/profile": wrap({
       component: Profile,
@@ -58,6 +60,7 @@ async function checkTokenExpired() {
       ]
     }),
     "/signup": Signup,
+    
   }
 </script>
 

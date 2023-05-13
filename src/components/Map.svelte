@@ -26,8 +26,6 @@
   onMount(async () => {
     map = new LeafletMap("map", mapConfig);
     map.showZoomControl();
-    map.addLayerGroup("Places");
-    map.showLayerControl();
 
     let places = await beerconomyService.getAllPlaces();
     places.forEach((place) => {
@@ -35,6 +33,7 @@
     });
 
     map.imap.addEventListener("click", handleMapClick);
+    map.showLayerControl()
     //map.hideMarkersInLayer("Places")
   });
 
@@ -51,7 +50,7 @@
   }
 
   function handleMapClick() {
-      window.addEventListener("clickmarkerbuttonclick", addPlace)
+    window.addEventListener("clickmarkerbuttonclick", addPlace);
   }
 
   export function addPlace() {
@@ -77,16 +76,15 @@
   }
 
   function handleLoginSignup() {
-    reloadPlaces()
+    reloadPlaces();
   }
-
 </script>
 
 <div class="box" id="map" style="height: 480px;" />
 
 {#if showAddPlace}
   <div class="modal is-active" id="modal" transition:fade>
-    <div class="modal-background"/>
+    <div class="modal-background" />
     <div class="modal-content" id="modal-content">
       <div class="box">
         <div class="is-flex is-justify-content-end" id="delete">
@@ -97,28 +95,22 @@
           </button>
         </div>
         {#if $user.token}
-        <AddPlaceForm lat={addPlaceLat} lng={addPlaceLng} on:placeAdded={reloadPlaces} />
+          <AddPlaceForm lat={addPlaceLat} lng={addPlaceLng} on:placeAdded={reloadPlaces} />
         {:else}
-        <div class="box">
-          <LoginSignupControl on:loginSignupControlFinished={handleLoginSignup}/>
-        </div>
+          <div class="box">
+            <LoginSignupControl on:loginSignupControlFinished={handleLoginSignup} />
+          </div>
         {/if}
       </div>
     </div>
     <button class="modal-close is-large" aria-label="close" />
   </div>
 {:else}
-<div>
-
-</div>
+  <div />
 {/if}
 
 <style>
   .modal {
     top: -150px;
-
   }
-
-
-
 </style>
