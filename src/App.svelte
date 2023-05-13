@@ -16,7 +16,7 @@
   if (import.meta.env.dev) {
     url = import.meta.env.VITE_BACKEND_URL_DEV
   } else {
-    url = import.meta.env.VITE_BACKEND_URL_PROD
+    url = import.meta.env.VITE_BACKEND_URL_DEV
   }
 
   setContext("BeerconomyService", new BeerconomyService(url));

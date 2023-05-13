@@ -5,23 +5,26 @@
   import { fade, blur } from "svelte/transition";
   import AddReviewForm from "./AddReviewForm.svelte";
   import Router, { push } from "svelte-spa-router";
+  import Weather from "./Weather.svelte";
+  import { transition_in } from "svelte/internal";
 
   export let place;
-  console.log(place)
+  console.log(place);
   let reviews;
   let rating = 0;
   let showReviewForm;
-  let numberOfReviews = 0
+  let numberOfReviews = 0;
+  let weather = {};
+  let showWeather = false;
   const dispatch = createEventDispatcher();
   const beerconomyService = getContext("BeerconomyService");
 
-
   onMount(async () => {
     reviews = await beerconomyService.getPlaceReviews(place._id);
-    console.log(reviews)
+    weather = await beerconomyService.getWeather(place.lat, place.lng);
     if (reviews) {
-      rating = getAvgFromReviews(reviews)
-      numberOfReviews = reviews.length
+      rating = getAvgFromReviews(reviews);
+      numberOfReviews = reviews.length;
     }
   });
 
@@ -33,6 +36,14 @@
   function closeReviewForm() {
     showReviewForm = false;
     document.getElementById("map").style.display = "block";
+  }
+
+  function showWeatherPopup() {
+    showWeather = true;
+  }
+
+  function closeWeatherPopup() {
+    showWeather = false;
   }
 
   async function handleReviewAdded() {
@@ -93,10 +104,26 @@
         </figure>
       </div>
       <div class="media-content">
-        <p class="subtitle is-7" id="reviews">{numberOfReviews} reviews</p>
+        {#if weather}
+          <div class="columns" id="content-top">
+            <div class="column is-narrow">
+              <button on:mouseenter={showWeatherPopup} on:mouseleave={closeWeatherPopup} class="is-rounded" id="weatherButton">
+                <figure class="image is-32x32">
+                  <img class="is-rounded" src={weather.icon} alt="Placeholder" />
+                </figure>
+              </button>
+            </div>
+            {#if showWeather}
+            <div class="column" id="weatherpopup" transition:blur>
+                <Weather weather={weather}/>
+            </div>
+            {/if}
+          </div>
+        {/if}
         <p class="title is-3" id="placeName">{place.placeName}</p>
         <p class="subtitle is-6" id="placeAddress">{place.address}</p>
         <p class="subtitle is-6" id="placeRating">{@html stars(rating)}</p>
+        <p class="subtitle is-7" id="reviews">{numberOfReviews} reviews</p>
       </div>
       {#if $user.token}
         <button class="button is-info is-pulled-right" on:click={openReviewForm}>
@@ -105,7 +132,6 @@
           </span>
           <span>Review</span>
         </button>
-        
       {:else}
         <button class="button is-info is-pulled-right" on:click={pushSignUp}>
           <span class="icon is-large">
@@ -131,3 +157,47 @@
     {/each}
   </div>
 {/if}
+
+<style>
+  #content-top {
+    margin-bottom: -10px;
+  }
+
+  #placeRating {
+    margin-top: -5px;
+  }
+
+  #reviews {
+    margin-top: -20px;
+  }
+
+  #weatherButton:hover {
+    background: rgb(95, 108, 250);
+    transition: all 0.7s ease-in-out;
+  }
+
+  #weatherButton:active {
+    border-color: black;
+    outline: none !important;
+  }
+
+  #weatherButton:focus {
+    border: none !important;
+    outline: none !important;
+  }
+
+  #weatherButton {
+    color: rgb(6, 6, 6);
+    outline: none !important;
+    border: none !important;
+    background: rgb(255, 255, 255);
+    border-radius: 100px;
+
+    cursor: pointer !important;
+  }
+
+  * {
+    font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 500;
+  }
+</style>

@@ -169,6 +169,17 @@ export class BeerconomyService {
     }
   }
 
+  async getWeather(lat, lng) {
+    try {
+      // https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${ApiKey}
+      const response = await axios.get(`${this.baseUrl}/api/weather/lat=${lat}lng=${lng}`)
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      return {};
+    }
+  }
+
   async getProfilePicture(userEmail) {
     try {
       const response = await axios.get(`${this.baseUrl}/api/profile/profilepicture`);
