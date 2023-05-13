@@ -53,16 +53,13 @@ export class BeerconomyService {
     localStorage.removeItem("beerconomy");
   }
 
-  async signup(firstName, lastName, email, password) {
+  async addUser(user) {
     try {
-      const userDetails = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-      };
-      await axios.post(this.baseUrl + "/api/users", userDetails);
-      return true;
+      const response = await axios.post(`${this.baseUrl}/api/users`, user);
+      if (response.status == 200) {
+        return true;
+      }
+      return false   
     } catch (error) {
       return false;
     }
@@ -83,10 +80,31 @@ export class BeerconomyService {
 
   async addPlacePhoto(id, photo) {
     try {
-      const response = await axios.post(`${this.baseUrl}/api/places/${id}/photos`, photo);
+      const response = await axios.post(`${this.baseUrl}/api/places/${id}/photos`, photo, { headers: { "Content-Type": photo.type } });
       return response.status == 200;
     } catch (error) {
       return false;
+    }
+  }
+
+  async getPlaceReviews(id) {
+    try {
+      const response = await axios.get(`${this.baseUrl}/api/places/${id}/reviews`);
+      return response.data;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async addReview(review) {
+    try {
+      const response = await axios.post(`${this.baseUrl}/api/reviews`, review);
+      if (response.status == 200) {
+        return true;
+      } 
+      return false
+    } catch (error) {
+      return [];
     }
   }
 
@@ -120,6 +138,7 @@ export class BeerconomyService {
   async getPlaceLatLng(lat, lng) {
     try {
       const response = await axios.get(`${this.baseUrl}/api/places/lat=${lat}lng=${lng}`);
+      //console.log(response.data)
       return response.data;
     } catch (error) {
       return {};

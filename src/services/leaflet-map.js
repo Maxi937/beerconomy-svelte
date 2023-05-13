@@ -16,6 +16,50 @@ export class LeafletMap {
     }),
   };
 
+  goldIcon = new L.Icon({
+    iconUrl:
+      "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png",
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
+  greenIcon = new L.Icon({
+    iconUrl:
+      "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
+  violetIcon = new L.Icon({
+    iconUrl:
+      "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png",
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
+  blueIcon = new L.Icon({
+    iconUrl:
+      "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
   clickmarker = L.marker(null);
 
   constructor(id, descriptor, activeLayer = "") {
@@ -35,25 +79,37 @@ export class LeafletMap {
     this.imap.on("click", (e) => {
       this.clickmarkerBehaviour(e);
     });
-  }
 
-  markerBehaviour(e) {
-    this.closeAllPopups();
-    e.target.openPopup();
-    this.deleteClickMarker();
+    let selectedMarker
   }
 
   clickmarkerBehaviour(e) {
-    this.closeAllPopups();
     this.clickmarker.remove();
+    this.imap.selectedMarker = this.clickmarker
+    this.colorAllMarkersBlue()
+    this.closeAllPopups()
     this.clickmarker = L.marker(e.latlng);
+    this.clickmarker.setIcon(this.goldIcon)
     this.clickmarker.addTo(this.imap);
-    this.clickmarker.bindPopup(`
-          <button class="button is-small is-primary has-text-centered" id="addPlace-${this.clickmarker._leaflet_id}">
-            Add a place
-          </button>`);
+    this.clickmarker.bindPopup(this.clickMarkerButton());
     this.clickmarker.openPopup();
     this.moveTo(this.imap.zoom, e.latlng);
+    this.clickmarker.on("mouseover", (e) => {
+      this.clickmarker.openPopup();
+    });
+  }
+
+  clickMarkerButton() {
+    const button = document.createElement("button")
+    button.classList.add("button", "is-small", "is-primary", "has-text-centered")
+    button.innerHTML = "Add a place"
+    button.addEventListener("click", this.handleClickMarkerButtonClick)
+    return button
+  }
+
+  handleClickMarkerButtonClick() {
+    const clickmarkerbuttonclick = new Event('clickmarkerbuttonclick');
+    window.dispatchEvent(clickmarkerbuttonclick)
   }
 
   addLayer(title, layer) {
@@ -109,10 +165,34 @@ export class LeafletMap {
       group = this.overlays[layerTitle];
     }
     marker.addTo(group);
-    marker.on("click", (e) => {
-      this.markerBehaviour(e);
-    });
+    this.markerBehaviour(marker);
+
     return marker;
+  }
+
+  markerBehaviour(marker) {
+    marker.on("click", (e) => {
+      this.colorAllMarkersBlue()
+      this.closeAllPopups()
+      marker.openPopup();
+      this.deleteClickMarker();
+      marker.setIcon(this.greenIcon)
+      this.imap.selectedMarker = marker;
+    });
+
+    marker.on("mouseover", (e) => {
+      if (marker != this.imap.selectedMarker) {
+        marker.openPopup();
+        marker.setIcon(this.violetIcon);
+      }
+    });
+
+    marker.on("mouseout", (e) => {
+      if (marker != this.imap.selectedMarker) {
+      marker.closePopup();
+      marker.setIcon(this.blueIcon);
+      }
+    });
   }
 
   invalidateSize() {
@@ -159,6 +239,15 @@ export class LeafletMap {
     });
   }
 
+  colorAllMarkersBlue() {
+    let markers = this.getAllMarkers()
+    markers.forEach((marker) => {
+      if (marker != this.clickmarker) {
+        marker.setIcon(this.blueIcon)
+      } 
+    })
+  }
+
   closeAllPopups() {
     this.imap.eachLayer(function (layer) {
       if (layer instanceof L.Marker) {
@@ -189,3 +278,4 @@ export class LeafletMap {
     return this.clickmarker;
   }
 }
+

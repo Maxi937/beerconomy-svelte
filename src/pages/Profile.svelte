@@ -19,7 +19,6 @@
   });
 
   async function updateReviews() {
-    console.log("updating reviews");
     reviews = [];
     reviews = await beerconomyService.getProfileReviews();
   }

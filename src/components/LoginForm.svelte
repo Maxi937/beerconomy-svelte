@@ -1,10 +1,11 @@
 <script>
     import {push} from "svelte-spa-router";
-    import {getContext} from "svelte";
+    import {createEventDispatcher, getContext} from "svelte";
   
     let email = ""
     let password = "";
-    let errorMessage = "";
+    let message = "";
+    const dispatch = createEventDispatcher();
   
     const beerconomyService = getContext("BeerconomyService");
   
@@ -12,10 +13,11 @@
       let success = await beerconomyService.login(email, password)
       if (success) {
         push("/");
+        dispatch("login")
       } else {
         email = "";
         password = "";
-        errorMessage = "Invalid Credentials";
+        message = "Invalid Credentials";
       }
     }
   </script>
@@ -32,9 +34,9 @@
     <div class="field is-grouped">
       <button class="button is-link">Log In</button>
     </div>
-  </form>
-  {#if errorMessage}
-    <div class="section">
-      {errorMessage}
+    {#if message}
+    <div class="box mt-5 has-background-danger has-text-white" transition:fade>
+      {message}
     </div>
   {/if}
+  </form>

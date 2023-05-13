@@ -1,11 +1,11 @@
 <script>
-  import { marker } from "leaflet";
-  import { fade, blur } from 'svelte/transition';
+  import { user } from "../stores";
+  import { fade, blur } from "svelte/transition";
   import { LeafletMap } from "../services/leaflet-map";
   import { getContext, onMount } from "svelte";
   import AddPlaceForm from "./AddPlaceForm.svelte";
   import { createEventDispatcher } from "svelte";
-  import {setContext} from "svelte";
+  import LoginSignupControl from "./LoginSignupControl.svelte";
 
   const beerconomyService = getContext("BeerconomyService");
 
@@ -18,9 +18,9 @@
 
   let map = null;
   let place;
-  let showAddPlace = false
-  let addPlaceLat
-  let addPlaceLng
+  let showAddPlace = false;
+  let addPlaceLat;
+  let addPlaceLng;
   const dispatch = createEventDispatcher();
 
   onMount(async () => {
@@ -39,7 +39,7 @@
   });
 
   export function addPlaceMarker(place) {
-    const marker = map.addMarker({ lat: place.lat, lng: place.lng }, place.placeName, "Places");
+    const marker = map.addMarker({ lat: place.lat, lng: place.lng }, place.placeName, place.category);
     marker.addEventListener("click", handlePlaceMarkerClick);
   }
 
@@ -47,23 +47,22 @@
     let lat = this._latlng.lat;
     let lng = this._latlng.lng;
     place = await beerconomyService.getPlaceLatLng(lat, lng);
-    dispatch("placeselected", {place})
+    dispatch("placeselected", { place });
   }
 
   function handleMapClick() {
-    let id = map.clickmarker._leaflet_id
-    document.getElementById(`addPlace-${id}`).addEventListener("click", addPlace);
+      window.addEventListener("clickmarkerbuttonclick", addPlace)
   }
 
-  function addPlace() {
-    showAddPlace = true
-    addPlaceLat = map.clickmarker._latlng.lat
-    addPlaceLng = map.clickmarker._latlng.lng
+  export function addPlace() {
+    showAddPlace = true;
+    addPlaceLat = map.clickmarker._latlng.lat;
+    addPlaceLng = map.clickmarker._latlng.lng;
     document.getElementById("map").style.zIndex = "0";
   }
 
   function closeAddPlace() {
-    showAddPlace = false
+    showAddPlace = false;
     document.getElementById("map").style.display = "block";
   }
 
@@ -72,34 +71,54 @@
     places.forEach((place) => {
       addPlaceMarker(place);
     });
-    if (showAddPlace = true) {
-      showAddPlace = false
+    if ((showAddPlace = true)) {
+      showAddPlace = false;
     }
   }
+
+  function handleLoginSignup() {
+    reloadPlaces()
+  }
+
 </script>
 
-<div>
-  
-</div>
 <div class="box" id="map" style="height: 480px;" />
 
 {#if showAddPlace}
-<div class="modal is-active" id="modal" transition:fade>
-  <div class="modal-background"/>
-  <div class="modal-content">
-    <div class="box">
-      <div class="is-flex is-justify-content-end" id="delete">
-        <button class="button is-ghost" on:click={closeAddPlace}>
-          <span class="icon">
-            <ion-icon name="close-sharp" />
-          </span>
-        </button>
+  <div class="modal is-active" id="modal" transition:fade>
+    <div class="modal-background"/>
+    <div class="modal-content" id="modal-content">
+      <div class="box">
+        <div class="is-flex is-justify-content-end" id="delete">
+          <button class="button is-ghost" on:click={closeAddPlace}>
+            <span class="icon">
+              <ion-icon name="close-sharp" />
+            </span>
+          </button>
+        </div>
+        {#if $user.token}
+        <AddPlaceForm lat={addPlaceLat} lng={addPlaceLng} on:placeAdded={reloadPlaces} />
+        {:else}
+        <div class="box">
+          <LoginSignupControl on:loginSignupControlFinished={handleLoginSignup}/>
+        </div>
+        {/if}
       </div>
-    <AddPlaceForm lat = {addPlaceLat} lng = {addPlaceLng} on:placeAdded={reloadPlaces}/>
     </div>
+    <button class="modal-close is-large" aria-label="close" />
   </div>
-  <button class="modal-close is-large" aria-label="close" />
+{:else}
+<div>
+
 </div>
 {/if}
 
+<style>
+  .modal {
+    top: -150px;
 
+  }
+
+
+
+</style>

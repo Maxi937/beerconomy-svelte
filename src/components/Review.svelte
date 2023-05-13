@@ -1,5 +1,6 @@
 <script>
   import {createEventDispatcher, getContext, onMount} from "svelte";
+  import { getLongDate }from "../services/moment"
 
   const beerconomyService = getContext("BeerconomyService");
 
@@ -17,7 +18,7 @@
     userProfile = await beerconomyService.getUserProfile(review.user); // THis value should be hashed in the review model
   });
 
-  const stars = function (rating) {
+  function stars(rating) {
     if (rating > 5) {
       rating = 5;
     }
@@ -33,7 +34,7 @@
     if (!success) {
       alert("Something went wrong");
     } else {
-      console.log("deleting review");
+      //console.log("deleting review");
       dispatch("reviewDeleted");
     }
   }
@@ -69,10 +70,10 @@
       <div class="media-content">
         <div class="column is-narrow">
           <p class="title is-4" id="userName">{userProfile.userName}</p>
-          <p class="subtitle is-7 is-italic" id="reviewRating">{review.date}</p>
+          <p class="subtitle is-7 is-italic" id="reviewRating">{getLongDate(review.date)}</p>
         </div>
       </div>
-      <div class="content" id="reviewDate">{@html stars(review.rating)}</div>
+      <div class="content" id="reviewRating">{@html stars(review.rating)}</div>
     </div>
     <div class="content" id="reviewContent">{review.content}</div>
     <div class="is-flex is-justify-content-end" id="socials">

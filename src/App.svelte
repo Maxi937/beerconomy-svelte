@@ -5,6 +5,7 @@
   import TitleBar from "./components/TitleBar.svelte";
   import Main from "./pages/Main.svelte"
   import Login from "./pages/Login.svelte";
+  import Signup from "./pages/Signup.svelte";
   import Router, { push } from "svelte-spa-router";
   import Logout from "./components/Logout.svelte";
   import Profile from "./pages/Profile.svelte";
@@ -24,6 +25,7 @@ async function checkTokenExpired() {
     const expired = await beerconomyService.checkTokenExpired($user.token)
     if (expired) {
       beerconomyService.logout()
+      push("/")
     }
 }
 
@@ -55,6 +57,7 @@ async function checkTokenExpired() {
         }
       ]
     }),
+    "/signup": Signup,
   }
 </script>
 
