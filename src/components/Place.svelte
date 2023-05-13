@@ -99,7 +99,7 @@
   <div class="card-content">
     <div class="media">
       <div class="media-left">
-        <figure class="image is-128x128">
+        <figure class="image is-128x128 is-flex is-align-items-center">
           <img class="is-rounded" src="data:{place.picture.contentType};base64,{place.picture.data}" alt="Placeholder" />
         </figure>
       </div>
@@ -121,9 +121,8 @@
           </div>
         {/if}
         <p class="title is-3" id="placeName">{place.placeName}</p>
-        <p class="subtitle is-6" id="placeAddress">{place.address}</p>
-        <p class="subtitle is-6" id="placeRating">{@html stars(rating)}</p>
-        <p class="subtitle is-7" id="reviews">{numberOfReviews} reviews</p>
+        <p class="subtitle is-5" id="placeRating">{@html stars(rating)}</p>
+        <p class="subtitle is-7 is-italic" id="reviews">{numberOfReviews} reviews</p>
       </div>
       {#if $user.token}
         <button class="button is-info is-pulled-right" on:click={openReviewForm}>
@@ -141,12 +140,14 @@
         </button>
       {/if}
     </div>
-
     {#if place.description}
       <div class="content">
         {place.description}
       </div>
     {/if}
+    <div class="is-flex is-justify-content-end">
+      <p class="tag" id="placeAddress">{place.address}</p>
+    </div>
   </div>
 </div>
 
@@ -164,7 +165,17 @@
   }
 
   #placeRating {
-    margin-top: -5px;
+    margin-top: -15px;
+  }
+
+  #placeName {
+    margin-top: -15px;
+  }
+
+  #placeAddress {
+    margin-top: -40px;
+    margin-bottom: 0;
+
   }
 
   #reviews {
