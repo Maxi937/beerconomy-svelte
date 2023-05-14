@@ -21,7 +21,7 @@
 
   function finish() {
     console.log("finish");
-    dispatch("loginSignupControlFinished");
+    //dispatch("loginSignupControlFinished");
   }
 </script>
 

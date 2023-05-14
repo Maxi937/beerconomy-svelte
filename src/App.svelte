@@ -26,7 +26,6 @@ async function checkTokenExpired() {
     const expired = await beerconomyService.checkTokenExpired($user.token)
     if (expired) {
       beerconomyService.logout()
-      push("/")
     }
 }
 
