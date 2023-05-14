@@ -30,8 +30,8 @@
       message = "Please use a different email";
       return [];
     }
-    push("/");
     dispatch("signup");
+    push("/");
   }
 </script>
 

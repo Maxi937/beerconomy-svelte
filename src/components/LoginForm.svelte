@@ -13,8 +13,8 @@
   async function login() {
     let success = await beerconomyService.login(email, password);
     if (success) {
-      push("/");
       dispatch("login");
+      push("/");
     } else {
       email = "";
       password = "";
