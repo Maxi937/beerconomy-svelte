@@ -19,6 +19,7 @@
       </div>
     </div>
 
+    {#if weather.wind}
     <div class="column is-narrow">
       <div class="columns is-gapless">
         <div class="column is-narrow">
@@ -33,6 +34,7 @@
         </div>
       </div>
     </div>
+    {/if}
 
     <div class="column is-narrow">
       <div class="columns is-gapless">
