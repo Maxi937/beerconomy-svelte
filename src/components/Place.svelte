@@ -114,9 +114,9 @@
               </button>
             </div>
             {#if showWeather}
-            <div class="column" id="weatherpopup" transition:blur>
-                <Weather weather={weather}/>
-            </div>
+              <div class="column" id="weatherpopup" transition:blur>
+                <Weather {weather} />
+              </div>
             {/if}
           </div>
         {/if}
@@ -175,7 +175,6 @@
   #placeAddress {
     margin-top: -40px;
     margin-bottom: 0;
-
   }
 
   #reviews {

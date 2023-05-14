@@ -52,7 +52,6 @@
       likes = await beerconomyService.getLikes(review._id);
     }
   }
-  
 </script>
 
 <div class="card">
@@ -94,14 +93,14 @@
     <div class="columns">
       <div class="column is-flex is-justify-content-start" id="socials">
         {#if likes}
-        <span class="icon is-tiny">
-          <button on:click={likeReview} class="is-normal" id="like"><i class="fas fa-thumbs-up" /></button>
-        </span>
+          <span class="icon is-tiny">
+            <button on:click={likeReview} class="is-normal" id="like"><i class="fas fa-thumbs-up" /></button>
+          </span>
           &ensp; {likes}
         {:else}
-        <span class="icon is-tiny">
-          <button on:click={likeReview} class="is-normal" id="Notlike"><i class="fas fa-thumbs-up" /></button>
-        </span>
+          <span class="icon is-tiny">
+            <button on:click={likeReview} class="is-normal" id="Notlike"><i class="fas fa-thumbs-up" /></button>
+          </span>
         {/if}
       </div>
       <div class="column is-flex is-justify-content-end" id="socials">
