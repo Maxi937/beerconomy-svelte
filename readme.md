@@ -4,9 +4,21 @@ Svelte frontend for beerconomy
 
 ## **URL**
 
+<https://beerconomy-frontend.onrender.com>
 
 ## **Usage**
 
+### No Account
+
+- The map will load on first entry, pick a a place to see its details.
+- View the reviews for each place.
+
+### Account
+
+- Click a marker to load a place.
+- Click "Review" to leave a review.
+- You can also access your profile page to update your picture or see all your reviews.
+- Like Reviews
 
 ## Sources
 
