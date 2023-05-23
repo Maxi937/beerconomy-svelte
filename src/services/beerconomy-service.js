@@ -132,6 +132,18 @@ export class BeerconomyService {
     }
   }
 
+  async addFavourite(place) {
+    try {
+      const response = await axios.post(`${this.baseUrl}/api/profile/favourites`, place);
+      if (response.status == 200) {
+        return true;
+      }
+      return false   
+    } catch (error) {
+      return false;
+    }
+  }
+
   async getAllReviews() {
     try {
       const response = await axios.get(this.baseUrl + "/api/reviews");
@@ -162,7 +174,6 @@ export class BeerconomyService {
   async getPlaceLatLng(lat, lng) {
     try {
       const response = await axios.get(`${this.baseUrl}/api/places/lat=${lat}lng=${lng}`);
-      //console.log(response.data)
       return response.data;
     } catch (error) {
       return {};
@@ -171,9 +182,7 @@ export class BeerconomyService {
 
   async getWeather(lat, lng) {
     try {
-      // https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${ApiKey}
       const response = await axios.get(`${this.baseUrl}/api/weather/lat=${lat}lng=${lng}`)
-      console.log(response.data)
       return response.data;
     } catch (error) {
       return {};

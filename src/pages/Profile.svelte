@@ -6,7 +6,7 @@
 
   const beerconomyService = getContext("BeerconomyService");
 
-  let reviews = [];
+  let profile;
 
   const reviewOptions = {
     candelete: true,
@@ -15,12 +15,12 @@
   };
 
   onMount(async () => {
-    reviews = await beerconomyService.getProfileReviews();
+    profile = await beerconomyService.getProfile();
+    console.log(profile.reviews);
   });
 
   async function updateReviews() {
-    reviews = [];
-    reviews = await beerconomyService.getProfileReviews();
+    profile = await beerconomyService.getProfile();
   }
 </script>
 
@@ -33,8 +33,18 @@
   </div>
 </div>
 
-<div class="section">
-  {#each reviews as review}
-    <Review {review} {reviewOptions} on:reviewDeleted={updateReviews} />
-  {/each}
-</div>
+{#await profile}
+  <div>Awaiting</div>
+{:then profile}
+  <div class="columns">
+    {#if profile && profile.reviews}
+      <div class="column">
+        {#each profile.reviews as review}
+          <Review {review} {reviewOptions} on:reviewDeleted={updateReviews} />
+        {/each}
+      </div>
+    {/if}
+  </div>
+{:catch error}
+  {error.message}
+{/await}

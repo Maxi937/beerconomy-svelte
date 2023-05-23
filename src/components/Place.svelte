@@ -9,7 +9,6 @@
   import { transition_in } from "svelte/internal";
 
   export let place;
-  console.log(place);
   let reviews;
   let rating = 0;
   let showReviewForm;
@@ -54,6 +53,11 @@
 
   function pushSignUp() {
     push("/signup");
+  }
+
+  async function addFavourite() {
+    console.log(place)
+    await beerconomyService.addFavourite(place)
   }
 
   function getAvgFromReviews(reviews) {
@@ -125,12 +129,23 @@
         <p class="subtitle is-7 is-italic" id="reviews">{numberOfReviews} reviews</p>
       </div>
       {#if $user.token}
-        <button class="button is-info is-pulled-right" on:click={openReviewForm}>
-          <span class="icon is-large">
-            <i class="fas fa-book-open" />
-          </span>
-          <span>Review</span>
-        </button>
+        <div class="columns is-gapless">
+          <div class="column is-4">
+            <button class="button is-primary" on:click={addFavourite}>
+              <span class="icon is-large">
+                <i class="fas fa-star" />
+              </span>
+            </button>
+          </div>
+          <div class="column">
+            <button class="button is-info" on:click={openReviewForm}>
+              <span class="icon is-large">
+                <i class="fas fa-book-open" />
+              </span>
+              <span>Review</span>
+            </button>
+          </div>
+        </div>
       {:else}
         <button class="button is-info is-pulled-right" on:click={pushSignUp}>
           <span class="icon is-large">
