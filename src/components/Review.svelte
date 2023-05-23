@@ -83,7 +83,9 @@
       {/if}
       <div class="media-content">
         <div class="column is-narrow">
+          {#if reviewOptions.userName}
           <p class="title is-4" id="userName">{userProfile.userName}</p>
+          {/if}
           <p class="subtitle is-7 is-italic" id="reviewRating">{getLongDate(review.date)}</p>
         </div>
       </div>
