@@ -20,6 +20,22 @@ Svelte frontend for beerconomy
 - You can also access your profile page to update your picture or see all your reviews.
 - Like Reviews
 
+## Known Issues
+
+### No Data Loading when first visiting
+
+One possible reason this happens is chrome / mozilla blocking the api calls because the SSL cert is self signed.
+
+To confirm this is the issue:
+
+- Open the develope console and check for error messages containing "err_cert_authority_invalid"
+
+To resolve:
+
+- Copy and paste one of the endpoints into your browser and go to the link directly
+- Allow the connection.
+- Return to <https://beerconomy-frontend.onrender.com/>
+
 ## Sources
 
 | Source                                                                                                   | Description                                                          |
