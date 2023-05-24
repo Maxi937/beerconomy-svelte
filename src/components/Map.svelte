@@ -7,6 +7,7 @@
   import { createEventDispatcher } from "svelte";
   import LoginSignupControl from "./LoginSignupControl.svelte";
   import Loader from "./Loader.svelte";
+  import { preSelectedPlace } from "../stores";
 
   const beerconomyService = getContext("BeerconomyService");
 
@@ -39,6 +40,14 @@
     markersAddedToMap = true
     document.getElementById("map").style.visibility = "visible"
     document.getElementById("map").style.opacity = "100"
+
+    if ($preSelectedPlace.place) {
+      console.log("hello")
+      place = $preSelectedPlace.place
+      map.setSelectedMarker(place.lat, place.lng)
+      dispatch("placeselected", { place });
+      preSelectedPlace.set({ place: {} })
+    } 
   });
 
   export function addPlaceMarker(place) {

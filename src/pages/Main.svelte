@@ -21,11 +21,6 @@
     let places = await beerconomyService.getAllPlaces();
     stats.places = places.length;
     stats.reviews = reviews.length;
-
-    if ($preSelectedPlace.place) {
-      place = $preSelectedPlace.place
-      preSelectedPlace.set({ place: {} })
-    }
   });
 
   async function handlePlaceSelected(event) {

@@ -265,10 +265,22 @@ export class LeafletMap {
     });
   }
 
-  getMarkerByLatLng(latlng) {
+  getMarkerByLatLng(lat, lng) {
     this.imap.eachLayer(function (layer) {
       if (layer instanceof L.Marker) {
-        console.log(layer);
+        if (layer._latlng.lat == lat && layer._latlng.lng == lng) {
+          return layer;
+        }
+      }
+    });
+  }
+
+  setSelectedMarker(lat, lng) {
+    this.imap.eachLayer(function (layer) {
+      if (layer instanceof L.Marker) {
+        if (layer._latlng.lat === lat && layer._latlng.lng === lng) {
+          layer.fire('click')
+        }
       }
     });
   }
