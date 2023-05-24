@@ -54,12 +54,12 @@
   {/if}
 
   {#if profile.reviews[0]}
-  <div in:blur out:blur>
-    <p class="Header is-narrow">All Reviews</p>
+    <div in:blur out:blur>
+      <p class="Header is-narrow">All Reviews</p>
       {#each profile.reviews as review}
         <Review {review} {reviewOptions} on:reviewDeleted={updateComponent} />
       {/each}
-  </div>
+    </div>
   {/if}
 {:else}
   <div class="is-flex is-justify-content-center" in:blur>

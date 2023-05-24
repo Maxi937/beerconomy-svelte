@@ -17,8 +17,8 @@
   }
 
   function handleFavouriteClick() {
-    const place = favourite
-    preSelectedPlace.set({place})
+    const place = favourite;
+    preSelectedPlace.set({ place });
     push("/");
   }
 </script>

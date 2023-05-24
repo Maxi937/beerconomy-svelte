@@ -7,10 +7,9 @@
   import { push } from "svelte-spa-router";
   import Weather from "./Weather.svelte";
   import MiniLoader from "./MiniLoader.svelte";
- 
 
   export let place;
-  console.log(place)
+  console.log(place);
   let reviews;
   let rating = 0;
   let showReviewForm;
@@ -58,8 +57,8 @@
   }
 
   async function addFavourite() {
-    console.log(place)
-    await beerconomyService.addFavourite(place)
+    console.log(place);
+    await beerconomyService.addFavourite(place);
   }
 
   function getAvgFromReviews(reviews) {
@@ -110,35 +109,35 @@
         </figure>
       </div>
       <div class="media-content">
-          <div class="columns" id="content-top">
-            <div class="column is-narrow" >
-              {#if weather}
+        <div class="columns" id="content-top">
+          <div class="column is-narrow">
+            {#if weather}
               <button in:blur|local on:mouseenter={showWeatherPopup} on:mouseleave={closeWeatherPopup} class="is-rounded" id="weatherButton">
                 <figure class="image is-32x32">
                   <img class="is-rounded" src={weather.icon} alt="Placeholder" />
                 </figure>
               </button>
-              {:else}
-              <button id="weatherButton" class=block in:blur|local>
+            {:else}
+              <button id="weatherButton" class="block" in:blur|local>
                 <figure class="image is-32x32">
-                  <MiniLoader/>
+                  <MiniLoader />
                 </figure>
               </button>
-              {/if}
-            </div>
-            {#if showWeather}
-              <div class="column" id="weatherpopup" transition:blur>
-                <Weather {weather} />
-              </div>
             {/if}
           </div>
+          {#if showWeather}
+            <div class="column" id="weatherpopup" transition:blur>
+              <Weather {weather} />
+            </div>
+          {/if}
+        </div>
         <p class="title is-3" id="placeName">{place.placeName}</p>
         {#if reviews}
-        <p in:blur|local class="subtitle is-5" id="placeRating">{@html stars(rating)}</p>
-        <p in:blur|local class="subtitle is-7 is-italic" id="reviews">{numberOfReviews} reviews</p>
+          <p in:blur|local class="subtitle is-5" id="placeRating">{@html stars(rating)}</p>
+          <p in:blur|local class="subtitle is-7 is-italic" id="reviews">{numberOfReviews} reviews</p>
         {:else}
-        <p in:blur|local class="subtitle is-5" id="placeRating"><MiniLoader/></p>
-        <p in:blur|local class="subtitle is-7 is-italic" id="reviews">0 reviews</p>
+          <p in:blur|local class="subtitle is-5" id="placeRating"><MiniLoader /></p>
+          <p in:blur|local class="subtitle is-7 is-italic" id="reviews">0 reviews</p>
         {/if}
       </div>
       {#if $user.token}

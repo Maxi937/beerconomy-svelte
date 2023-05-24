@@ -6,7 +6,6 @@
   import { blur } from "svelte/transition";
   import { preSelectedPlace } from "../stores";
 
-
   const beerconomyService = getContext("BeerconomyService");
   let reviews = [];
   let place;
@@ -24,15 +23,14 @@
   });
 
   async function handlePlaceSelected(event) {
-    place = ""
+    place = "";
     place = await event.detail.place;
   }
 
   async function handleReviewAdded() {
     reviews = await beerconomyService.getPlaceReviews(place._id);
   }
-
-  </script>
+</script>
 
 <div in:blur|local>
   <Map on:placeselected={handlePlaceSelected} />
@@ -40,7 +38,7 @@
 
 {#if place}
   <div class="box">
-    <Place place={place} on:reviewAdded={handleReviewAdded} />
+    <Place {place} on:reviewAdded={handleReviewAdded} />
   </div>
 {:else}
   <div class="box">

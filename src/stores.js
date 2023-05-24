@@ -6,5 +6,5 @@ export const user = writable({
 });
 
 export const preSelectedPlace = writable({
-  place: {}
-})
+  place: {},
+});

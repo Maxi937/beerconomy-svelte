@@ -6,7 +6,7 @@
   let email = "";
   let password = "";
   let message = "";
-  
+
   const dispatch = createEventDispatcher();
   const beerconomyService = getContext("BeerconomyService");
 

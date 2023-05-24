@@ -36,18 +36,18 @@
     });
 
     map.imap.addEventListener("click", handleMapClick);
-    map.showLayerControl()
-    markersAddedToMap = true
-    document.getElementById("map").style.visibility = "visible"
-    document.getElementById("map").style.opacity = "100"
+    map.showLayerControl();
+    markersAddedToMap = true;
+    document.getElementById("map").style.visibility = "visible";
+    document.getElementById("map").style.opacity = "100";
 
     if ($preSelectedPlace.place) {
-      console.log("hello")
-      place = $preSelectedPlace.place
-      map.setSelectedMarker(place.lat, place.lng)
+      console.log("hello");
+      place = $preSelectedPlace.place;
+      map.setSelectedMarker(place.lat, place.lng);
       dispatch("placeselected", { place });
-      preSelectedPlace.set({ place: {} })
-    } 
+      preSelectedPlace.set({ place: {} });
+    }
   });
 
   export function addPlaceMarker(place) {
@@ -93,20 +93,18 @@
   }
 
   function handleMapVisible() {
-    console.log("making map visible")
-    document.getElementById("map").classList.add("showMap")
+    console.log("making map visible");
+    document.getElementById("map").classList.add("showMap");
   }
-
 </script>
 
 {#if !markersAddedToMap}
-<div in:blur class="box is-flex is-align-items-center is-justify-content-center" id="mapPlaceholder">
-  <Loader/>
-</div>
+  <div in:blur class="box is-flex is-align-items-center is-justify-content-center" id="mapPlaceholder">
+    <Loader />
+  </div>
 {/if}
- 
-<div class="box" id="map"/>
 
+<div class="box" id="map" />
 
 {#if showAddPlace}
   <div class="modal is-active" id="modal" transition:fade>
@@ -140,7 +138,7 @@
     height: 480px;
     visibility: hidden;
     opacity: 0;
-    transition: opacity ease 0.5s
+    transition: opacity ease 0.5s;
   }
 
   #mapPlaceholder {

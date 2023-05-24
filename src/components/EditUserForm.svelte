@@ -44,15 +44,15 @@
     <div class="field">
       <p class="control has-icons-left">
         {#if !submitted}
-        <input bind:value={fname} class="input" placeholder={user.fname} name="fname" id="fname" />
-        <span class="icon is-small is-left">
-          <i class="fas fa-user" />
-        </span>
+          <input bind:value={fname} class="input" placeholder={user.fname} name="fname" id="fname" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-user" />
+          </span>
         {:else}
-        <input disabled class="input" placeholder={user.fname} />
-        <span class="icon is-small is-left">
-          <i class="fas fa-lock" />
-        </span>
+          <input disabled class="input" placeholder={user.fname} />
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock" />
+          </span>
         {/if}
       </p>
     </div>
@@ -60,15 +60,15 @@
     <div class="field">
       <p class="control has-icons-left">
         {#if !submitted}
-        <input bind:value={lname} class="input" placeholder={user.lname} name="lname" id="lname" />
-        <span class="icon is-small is-left">
-          <i class="fas fa-user" />
-        </span>
+          <input bind:value={lname} class="input" placeholder={user.lname} name="lname" id="lname" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-user" />
+          </span>
         {:else}
-        <input disabled class="input" placeholder={user.lname} />
-        <span class="icon is-small is-left">
-          <i class="fas fa-lock" />
-        </span>
+          <input disabled class="input" placeholder={user.lname} />
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock" />
+          </span>
         {/if}
       </p>
     </div>
@@ -76,15 +76,15 @@
     <div class="field">
       <p class="control has-icons-left">
         {#if !submitted}
-        <input bind:value={email} class="input" placeholder={user.email} name="email" id="email" />
-        <span class="icon is-small is-left">
-          <i class="fas fa-envelope" />
-        </span>
+          <input bind:value={email} class="input" placeholder={user.email} name="email" id="email" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope" />
+          </span>
         {:else}
-        <input disabled class="input" placeholder={user.email} />
-        <span class="icon is-small is-left">
-          <i class="fas fa-lock" />
-        </span>
+          <input disabled class="input" placeholder={user.email} />
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock" />
+          </span>
         {/if}
       </p>
     </div>

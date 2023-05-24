@@ -1,52 +1,52 @@
 <script>
-  import {getContext, setContext} from "svelte";
+  import { getContext, setContext } from "svelte";
   import { user, preSelectedPlace } from "./stores";
 
-  import {BeerconomyService} from "./services/beerconomy-service";
+  import { BeerconomyService } from "./services/beerconomy-service";
   import TitleBar from "./components/TitleBar.svelte";
-  import Main from "./pages/Main.svelte"
+  import Main from "./pages/Main.svelte";
   import Login from "./pages/Login.svelte";
   import Signup from "./pages/Signup.svelte";
   import Router, { push } from "svelte-spa-router";
   import Logout from "./components/Logout.svelte";
   import Profile from "./pages/Profile.svelte";
-  import {wrap} from "svelte-spa-router/wrap"
+  import { wrap } from "svelte-spa-router/wrap";
   import About from "./pages/About.svelte";
 
-  let url
+  let url;
   if (import.meta.env.dev) {
-    url = import.meta.env.VITE_BACKEND_URL_DEV
+    url = import.meta.env.VITE_BACKEND_URL_DEV;
   } else {
-    url = import.meta.env.VITE_BACKEND_URL_DEV
+    url = import.meta.env.VITE_BACKEND_URL_DEV;
   }
-  
+
   // clear favourtie
-  preSelectedPlace.set({})
+  preSelectedPlace.set({});
 
   setContext("BeerconomyService", new BeerconomyService(url));
   const beerconomyService = getContext("BeerconomyService");
 
-async function checkTokenExpired() {
-    const expired = await beerconomyService.checkTokenExpired($user.token)
+  async function checkTokenExpired() {
+    const expired = await beerconomyService.checkTokenExpired($user.token);
     if (expired) {
-      beerconomyService.logout()
+      beerconomyService.logout();
     }
-}
+  }
 
-// TODO: there are pre conditions on the routes to check if the token has expired before proceeding, if the token is expired - logout() is called with deletes the user, a listener is needed to reresh the token or push back to login
-// This solution is very basic and does not account for the token being expired whilst in a page and interacting with components.
+  // TODO: there are pre conditions on the routes to check if the token has expired before proceeding, if the token is expired - logout() is called with deletes the user, a listener is needed to reresh the token or push back to login
+  // This solution is very basic and does not account for the token being expired whilst in a page and interacting with components.
 
   const routes = {
     "/": wrap({
       component: Main,
       conditions: [
         (detail) => {
-          if($user.token) {
-            checkTokenExpired()
+          if ($user.token) {
+            checkTokenExpired();
           }
-          return true
-        }
-      ]
+          return true;
+        },
+      ],
     }),
     "/login": Login,
     "/about": About,
@@ -55,20 +55,19 @@ async function checkTokenExpired() {
       component: Profile,
       conditions: [
         (detail) => {
-          if($user.token) {
-            checkTokenExpired()
+          if ($user.token) {
+            checkTokenExpired();
           }
-          return true
-        }
-      ]
+          return true;
+        },
+      ],
     }),
     "/signup": Signup,
-    
-  }
+  };
 </script>
 
-<TitleBar/>
+<TitleBar />
 
 <div class="container">
-  <Router {routes}/>
+  <Router {routes} />
 </div>

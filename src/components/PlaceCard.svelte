@@ -3,7 +3,6 @@
   import { fade, blur } from "svelte/transition";
   import MiniLoader from "./MiniLoader.svelte";
 
-  
   export let place;
   let reviews;
   let rating = 0;
@@ -24,8 +23,8 @@
   });
 
   async function deleteFavourite() {
-    await beerconomyService.deleteFavourite(place._id)
-    dispatch("favouriteDeleted")
+    await beerconomyService.deleteFavourite(place._id);
+    dispatch("favouriteDeleted");
   }
 
   function getAvgFromReviews(reviews) {

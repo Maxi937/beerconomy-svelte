@@ -59,7 +59,7 @@ export class BeerconomyService {
       if (response.status == 200) {
         return true;
       }
-      return false   
+      return false;
     } catch (error) {
       return false;
     }
@@ -71,7 +71,7 @@ export class BeerconomyService {
       if (response.status == 200) {
         return true;
       } else {
-        return false
+        return false;
       }
     } catch (error) {
       return false;
@@ -91,7 +91,7 @@ export class BeerconomyService {
     try {
       const response = await axios.post(`${this.baseUrl}/api/likes/${id}`, like);
       if (response.status == 200) {
-        return true
+        return true;
       }
       return false;
     } catch (error) {
@@ -112,7 +112,7 @@ export class BeerconomyService {
     try {
       const response = await axios.get(`${this.baseUrl}/api/likes/${id}`);
       if (response.status == 200) {
-        return response.data.length
+        return response.data.length;
       }
       return 0;
     } catch (error) {
@@ -125,8 +125,8 @@ export class BeerconomyService {
       const response = await axios.post(`${this.baseUrl}/api/reviews`, review);
       if (response.status == 200) {
         return true;
-      } 
-      return false
+      }
+      return false;
     } catch (error) {
       return [];
     }
@@ -138,7 +138,7 @@ export class BeerconomyService {
       if (response.status == 200) {
         return true;
       }
-      return false   
+      return false;
     } catch (error) {
       return false;
     }
@@ -182,7 +182,7 @@ export class BeerconomyService {
 
   async getWeather(lat, lng) {
     try {
-      const response = await axios.get(`${this.baseUrl}/api/weather/lat=${lat}lng=${lng}`)
+      const response = await axios.get(`${this.baseUrl}/api/weather/lat=${lat}lng=${lng}`);
       return response.data;
     } catch (error) {
       return {};
@@ -246,7 +246,7 @@ export class BeerconomyService {
   async deleteFavourite(placeId) {
     try {
       const response = await axios.delete(`${this.baseUrl}/api/profile/favourites/${placeId}`);
-      console.log(response.data)
+      console.log(response.data);
       return response.data;
     } catch (error) {
       return {};
