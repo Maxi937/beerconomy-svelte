@@ -64,7 +64,6 @@
     {:else}
     <p class="subtitle is-5" id="placeRating">{@html stars(1)}</p>
     <p class="subtitle is-7 is-italic" id="reviews">0 reviews</p>
-    
     {/if}
   </div>
   {#if place.description}
