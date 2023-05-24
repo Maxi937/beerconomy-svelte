@@ -1,7 +1,7 @@
 <script>
 import { fade, blur } from "svelte/transition";
-
 import PlaceCard from "./PlaceCard.svelte"
+
   export let favourite;
 
   let popup = false
@@ -23,16 +23,16 @@ import PlaceCard from "./PlaceCard.svelte"
 </button>
 
 {#if popup}
-<div class="popup" transition:blur>
-    <div class="popuptext" id="myPopup">
-        <PlaceCard place={favourite}/>
+<div class="popup is-flex" transition:blur>
+    <div class="popuptext" id="myPopup" on:mouseenter={showFavouritePopup} on:mouseleave={closeFavouritePopup}>
+        <PlaceCard place={favourite} on:favouriteDeleted/>
     </div>
 </div>
 {/if}
 
 <style>
   button {
-    margin: 5px;
+    margin: 10px;
     padding: 5px;
     border-style: solid !important;
     border-radius: 50%;
@@ -51,7 +51,7 @@ import PlaceCard from "./PlaceCard.svelte"
   .popup {
     position: relative;
     display: inline-block;
-    cursor: pointer;
+    z-index: 1;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;

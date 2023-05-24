@@ -22,7 +22,7 @@
     console.log(profile);
   });
 
-  async function updateReviews() {
+  async function updateComponent() {
     profile = await beerconomyService.getProfile();
   }
 </script>
@@ -41,12 +41,14 @@
 {#if profile}
   {#if profile.favourites}
   <div class = "block" in:blur>
-    <p class="Header is-narrow">
+    <p class="Header">
       Favourites
     </p>
-    <div class="box is-flex">
+    <div class="columns is-flex">
     {#each profile.favourites as favourite}
-    <Favourite {favourite} />
+    <div class="column is-narrow" transition:blur>
+      <Favourite {favourite} on:favouriteDeleted={updateComponent}/>
+    </div>
     {/each}
     </div>
   </div>
@@ -57,7 +59,7 @@
   {#if profile.reviews}
     <div in:blur>
       {#each profile.reviews as review}
-        <Review {review} {reviewOptions} on:reviewDeleted={updateReviews} />
+        <Review {review} {reviewOptions} on:reviewDeleted={updateComponent} />
       {/each}
     </div>
   {/if}
@@ -70,7 +72,7 @@
 
 <style>
   .Header {
-    width:10%;
+    width:30%;
     background-color: aquamarine;
     border-radius: 10px;
     padding: 5px;

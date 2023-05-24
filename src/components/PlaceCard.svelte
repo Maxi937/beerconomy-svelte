@@ -1,13 +1,9 @@
 <script>
   import { createEventDispatcher, getContext, onMount } from "svelte";
-  import { user } from "../stores";
-  import Review from "./Review.svelte";
   import { fade, blur } from "svelte/transition";
-  import AddReviewForm from "./AddReviewForm.svelte";
-  import Weather from "./Weather.svelte";
-  import Loader from "./Loader.svelte";
   import MiniLoader from "./MiniLoader.svelte";
 
+  
   export let place;
   let reviews;
   let rating = 0;
@@ -16,6 +12,7 @@
   let weather = {};
 
   const beerconomyService = getContext("BeerconomyService");
+  const dispatch = createEventDispatcher();
 
   onMount(async () => {
     reviews = await beerconomyService.getPlaceReviews(place._id);
@@ -26,14 +23,9 @@
     }
   });
 
-  function openReviewForm() {
-    showReviewForm = true;
-    document.getElementById("map").style.zIndex = "0";
-  }
-
-  function closeReviewForm() {
-    showReviewForm = false;
-    document.getElementById("map").style.display = "block";
+  async function deleteFavourite() {
+    await beerconomyService.deleteFavourite(place._id)
+    dispatch("favouriteDeleted")
   }
 
   function getAvgFromReviews(reviews) {
@@ -58,46 +50,62 @@
 
 <div class="card">
   <div class="card-content">
-    <p class="title is-3" id="placeName">{place.placeName}</p>
-    {#if reviews}
-    <p class="subtitle is-5" id="placeRating" in:blur>{@html stars(rating)}</p>
-    <p class="subtitle is-7 is-italic" id="reviews" in:blur>{numberOfReviews} reviews</p>
-    {:else}
-    <p class="subtitle is-5" id="placeRating" in:blur><MiniLoader/></p>
-    <p class="subtitle is-7 is-italic" id="reviews" in:blur>0 reviews</p>
-    {/if}
-  </div>
-  {#if place.description}
-    <div class="content">
-      {place.description}
+    <div class="columns">
+      <div class="column">
+        <p class="title is-3" id="placeName">{place.placeName}</p>
+      </div>
+      <div class="column is-flex is-justify-content-end">
+        <button class="button is-small is-warning" on:click={deleteFavourite}> Unfavourite </button>
+      </div>
     </div>
-  {/if}
-  <div class="is-flex is-justify-content-end">
-    <p class="tag" id="placeAddress">{place.address}</p>
+
+    <div class="block" id="placeRating">
+      {#if reviews}
+        <p in:blur>{@html stars(rating)}</p>
+      {:else}
+        <MiniLoader />
+      {/if}
+    </div>
+
+    <div class="columns is-flex is-align-items-center" id="reviews">
+      <div class="column">
+        <p class="subtitle is-7 is-italic" in:blur>
+          {#if reviews}
+            {numberOfReviews} reviews
+          {:else}
+            0 reviews
+          {/if}
+        </p>
+      </div>
+      <div class="column is-flex is-justify-content-end">
+        <p class="tag">{place.address}</p>
+      </div>
+    </div>
   </div>
 </div>
 
 <style>
   #placeRating {
+    height: 30px;
     margin-top: -15px;
-  }
-
-  #placeName {
-    margin-top: -15px;
-  }
-
-  #placeAddress {
-    margin-top: -40px;
-    margin-right: 20px;
-    margin-bottom: 0;
   }
 
   #reviews {
-    margin-top: -20px;
+    margin-top: -40px;
   }
 
   * {
     font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: 500;
+  }
+
+  .button {
+    transition: all 0.4s ease-in-out;
+  }
+
+  .button:hover {
+    background-color: aquamarine;
+    color: black;
+    transition: all ease 0.4s;
   }
 </style>
