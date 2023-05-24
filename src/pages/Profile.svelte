@@ -27,9 +27,11 @@
   }
 </script>
 
-<div class="columns">
-  <div class="column">
-    <ProfilePicture />
+<div class="columns" in:blur out:blur|local>
+  <div class="column is-flex">
+    <div class="box" style="width:100%;">
+      <ProfilePicture />
+    </div>
   </div>
   <div class="column is-flex">
     <div class="box" style="width:100%;">
@@ -40,11 +42,11 @@
 
 {#if profile}
   {#if profile.favourites[0]}
-    <div class="block" transition:blur|local>
-      <p class="Header">Favourites</p>
+    <div class="block" in:blur out:blur|local>
+      <p class="Header" out:blur>Favourites</p>
       <div class="columns is-flex">
         {#each profile.favourites as favourite}
-          <div class="column is-narrow" transition:blur|local>
+          <div class="column is-narrow" transition:blur>
             <Favourite {favourite} on:favouriteDeleted={updateComponent} />
           </div>
         {/each}
@@ -53,7 +55,7 @@
   {/if}
 
   {#if profile.reviews[0]}
-  <div transition:blur|local>
+  <div in:blur out:blur>
     <p class="Header is-narrow">All Reviews</p>
       {#each profile.reviews as review}
         <Review {review} {reviewOptions} on:reviewDeleted={updateComponent} />
@@ -61,7 +63,7 @@
   </div>
   {/if}
 {:else}
-  <div in:blur>
+  <div class="is-flex is-justify-content-center" in:blur>
     <Loader />
   </div>
 {/if}

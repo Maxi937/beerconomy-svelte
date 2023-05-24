@@ -1,10 +1,12 @@
 <script>
   import { createEventDispatcher, getContext, onMount } from "svelte";
+  import Loader from "./Loader.svelte";
+  import { blur } from "svelte/transition";
 
   const beerconomyService = getContext("BeerconomyService");
 
   let message = "";
-  let profilepicture = {};
+  let profilepicture;
   let uploads;
 
   onMount(async () => {
@@ -13,7 +15,6 @@
 
   async function updateProfilePicture() {
     const success = await beerconomyService.updateProfilePicture(uploads[0]);
-
     if (!success) {
       message = "Something went wrong";
     } else {
@@ -23,7 +24,7 @@
   }
 </script>
 
-<div class="box">
+{#if profilepicture}
   <form on:submit|preventDefault={updateProfilePicture} enctype="multipart/form-data">
     <div class="columns">
       <div class="column is-flex is-justify-content-start">
@@ -42,7 +43,6 @@
           </label>
         </div>
       </div>
-
       <div class="column is-flex is-justify-content-end">
         <div class="field">
           <p class="control">
@@ -52,12 +52,15 @@
       </div>
     </div>
   </form>
-
   <br />
-  <figure class="image is-flex is-justify-content-center">
-    <img class="is-rounded" src="data:{profilepicture.contentType};base64,{profilepicture.data}" alt="Placeholder" style="width:280px; height:280px;" />
+  <figure class="image is-flex is-justify-content-center" in:blur>
+    <img in:blur out:blur|local class="is-rounded" src="data:{profilepicture.contentType};base64,{profilepicture.data}" alt="Placeholder" style="width:250px; height:250px;" />
   </figure>
-</div>
+{:else}
+  <div class="is-flex is-justify-content-center is-align-items-center" style="height: 280px;" in:blur>
+    <Loader />
+  </div>
+{/if}
 
 {#if message}
   <div class="section">
