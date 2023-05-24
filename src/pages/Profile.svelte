@@ -39,40 +39,36 @@
 </div>
 
 {#if profile}
-  {#if profile.favourites}
-  <div class = "block" in:blur>
-    <p class="Header">
-      Favourites
-    </p>
-    <div class="columns is-flex">
-    {#each profile.favourites as favourite}
-    <div class="column is-narrow" transition:blur>
-      <Favourite {favourite} on:favouriteDeleted={updateComponent}/>
+  {#if profile.favourites[0]}
+    <div class="block" transition:blur|local>
+      <p class="Header">Favourites</p>
+      <div class="columns is-flex">
+        {#each profile.favourites as favourite}
+          <div class="column is-narrow" transition:blur|local>
+            <Favourite {favourite} on:favouriteDeleted={updateComponent} />
+          </div>
+        {/each}
+      </div>
     </div>
-    {/each}
-    </div>
-  </div>
   {/if}
-  <p class="Header is-narrow">
-    All Reviews
-  </p>
-  {#if profile.reviews}
-    <div in:blur>
+
+  {#if profile.reviews[0]}
+  <div transition:blur|local>
+    <p class="Header is-narrow">All Reviews</p>
       {#each profile.reviews as review}
         <Review {review} {reviewOptions} on:reviewDeleted={updateComponent} />
       {/each}
-    </div>
+  </div>
   {/if}
 {:else}
-<div in:blur>
-  <Loader />
-</div>
-  
+  <div in:blur>
+    <Loader />
+  </div>
 {/if}
 
 <style>
   .Header {
-    width:30%;
+    width: 30%;
     background-color: aquamarine;
     border-radius: 10px;
     padding: 5px;
