@@ -6,6 +6,7 @@
   import AddReviewForm from "./AddReviewForm.svelte";
   import Weather from "./Weather.svelte";
   import Loader from "./Loader.svelte";
+  import MiniLoader from "./MiniLoader.svelte";
 
   export let place;
   let reviews;
@@ -59,11 +60,11 @@
   <div class="card-content">
     <p class="title is-3" id="placeName">{place.placeName}</p>
     {#if reviews}
-    <p class="subtitle is-5" id="placeRating" transition:blur>{@html stars(rating)}</p>
-    <p class="subtitle is-7 is-italic" id="reviews" transition:blur>{numberOfReviews} reviews</p>
+    <p class="subtitle is-5" id="placeRating" in:blur>{@html stars(rating)}</p>
+    <p class="subtitle is-7 is-italic" id="reviews" in:blur>{numberOfReviews} reviews</p>
     {:else}
-    <p class="subtitle is-5" id="placeRating">{@html stars(1)}</p>
-    <p class="subtitle is-7 is-italic" id="reviews">0 reviews</p>
+    <p class="subtitle is-5" id="placeRating" in:blur><MiniLoader/></p>
+    <p class="subtitle is-7 is-italic" id="reviews" in:blur>0 reviews</p>
     {/if}
   </div>
   {#if place.description}

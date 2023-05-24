@@ -4,7 +4,7 @@
   import Review from "../components/Review.svelte";
   import Loader from "../components/Loader.svelte";
   import { createEventDispatcher, getContext, onMount } from "svelte";
-  import { fade } from "svelte/transition";
+  import { fade, blur } from "svelte/transition";
   import Favourite from "../components/Favourite.svelte";
 
   const beerconomyService = getContext("BeerconomyService");
@@ -31,14 +31,16 @@
   <div class="column">
     <ProfilePicture />
   </div>
-  <div class="column">
-    <EditUserForm />
+  <div class="column is-flex">
+    <div class="box" style="width:100%;">
+      <EditUserForm />
+    </div>
   </div>
 </div>
 
 {#if profile}
   {#if profile.favourites}
-  <div class = "block">
+  <div class = "block" in:blur>
     <p class="Header is-narrow">
       Favourites
     </p>
@@ -53,14 +55,17 @@
     All Reviews
   </p>
   {#if profile.reviews}
-    <div transition:fade>
+    <div in:blur>
       {#each profile.reviews as review}
         <Review {review} {reviewOptions} on:reviewDeleted={updateReviews} />
       {/each}
     </div>
   {/if}
 {:else}
+<div in:blur>
   <Loader />
+</div>
+  
 {/if}
 
 <style>
