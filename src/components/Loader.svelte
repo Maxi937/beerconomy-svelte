@@ -1,6 +1,6 @@
-<div class="box is-flex is-justify-content-center">
-    <div class="loader"></div>
-</div>
+
+<div class="loader"></div>
+
 
 <style>
 .loader {

@@ -4,9 +4,8 @@
   import Review from "../components/Review.svelte";
   import { fade, blur } from "svelte/transition";
   import AddReviewForm from "./AddReviewForm.svelte";
-  import Router, { push } from "svelte-spa-router";
+  import { push } from "svelte-spa-router";
   import Weather from "./Weather.svelte";
-  import Loader from "./Loader.svelte";
   import MiniLoader from "./MiniLoader.svelte";
  
 

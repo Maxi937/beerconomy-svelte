@@ -6,6 +6,7 @@
   import AddPlaceForm from "./AddPlaceForm.svelte";
   import { createEventDispatcher } from "svelte";
   import LoginSignupControl from "./LoginSignupControl.svelte";
+  import Loader from "./Loader.svelte";
 
   const beerconomyService = getContext("BeerconomyService");
 
@@ -16,8 +17,9 @@
     maxZoom: 12,
   };
 
-  let map = null;
+  let map;
   let place;
+  let markersAddedToMap = false;
   let showAddPlace = false;
   let addPlaceLat;
   let addPlaceLng;
@@ -34,7 +36,9 @@
 
     map.imap.addEventListener("click", handleMapClick);
     map.showLayerControl()
-    //map.hideMarkersInLayer("Places")
+    markersAddedToMap = true
+    document.getElementById("map").style.visibility = "visible"
+    document.getElementById("map").style.opacity = "100"
   });
 
   export function addPlaceMarker(place) {
@@ -78,9 +82,22 @@
   function handleLoginSignup() {
     reloadPlaces();
   }
+
+  function handleMapVisible() {
+    console.log("making map visible")
+    document.getElementById("map").classList.add("showMap")
+  }
+
 </script>
 
-<div class="box" id="map" style="height: 480px;" />
+{#if !markersAddedToMap}
+<div in:blur class="box is-flex is-align-items-center is-justify-content-center" id="mapPlaceholder">
+  <Loader/>
+</div>
+{/if}
+ 
+<div class="box" id="map"/>
+
 
 {#if showAddPlace}
   <div class="modal is-active" id="modal" transition:fade>
@@ -110,6 +127,17 @@
 {/if}
 
 <style>
+  #map {
+    height: 480px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity ease 0.5s
+  }
+
+  #mapPlaceholder {
+    height: 480px;
+  }
+
   .modal {
     top: -150px;
   }

@@ -1,8 +1,10 @@
 <script>
   import Map from "../components/Map.svelte";
-  import { createEventDispatcher, getContext, onMount } from "svelte";
+  import { getContext, onMount } from "svelte";
   import Review from "../components/Review.svelte";
   import Place from "../components/Place.svelte";
+  import { fade, blur } from "svelte/transition";
+
 
   const beerconomyService = getContext("BeerconomyService");
 
@@ -31,7 +33,7 @@
   }
 </script>
 
-<div>
+<div in:blur|local>
   <Map on:placeselected={handlePlaceSelected} />
 </div>
 
