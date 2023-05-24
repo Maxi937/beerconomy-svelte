@@ -1,33 +1,40 @@
 <script>
-import { fade, blur } from "svelte/transition";
-import PlaceCard from "./PlaceCard.svelte"
+  import { blur } from "svelte/transition";
+  import PlaceCard from "./PlaceCard.svelte";
+  import { push } from "svelte-spa-router";
+  import { preSelectedPlace } from "../stores";
 
   export let favourite;
 
-  let popup = false
+  let popup = false;
 
   function showFavouritePopup() {
-    popup = true
+    popup = true;
   }
 
   function closeFavouritePopup() {
-    popup = false
+    popup = false;
   }
-  
+
+  function handleFavouriteClick() {
+    const place = favourite
+    preSelectedPlace.set({place})
+    push("/");
+  }
 </script>
 
-<button on:mouseenter={showFavouritePopup} on:mouseleave={closeFavouritePopup}>
+<button on:click={handleFavouriteClick} on:mouseenter={showFavouritePopup} on:mouseleave={closeFavouritePopup}>
   <figure class="image is-flex is-justify-content-center">
     <img class="is-rounded" src="data:{favourite.picture.contentType};base64,{favourite.picture.data}" alt="Placeholder" style="width:80px; height:80px;" />
   </figure>
 </button>
 
 {#if popup}
-<div class="popup is-flex" transition:blur>
+  <div class="popup is-flex" transition:blur>
     <div class="popuptext" id="myPopup" on:mouseenter={showFavouritePopup} on:mouseleave={closeFavouritePopup}>
-        <PlaceCard place={favourite} on:favouriteDeleted/>
+      <PlaceCard place={favourite} on:favouriteDeleted />
     </div>
-</div>
+  </div>
 {/if}
 
 <style>
@@ -68,5 +75,4 @@ import PlaceCard from "./PlaceCard.svelte"
     left: 50%;
     margin-left: -80px;
   }
-
 </style>

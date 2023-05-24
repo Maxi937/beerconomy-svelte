@@ -1,6 +1,7 @@
 <script>
   import {getContext, setContext} from "svelte";
-  import { user } from "./stores";
+  import { user, preSelectedPlace } from "./stores";
+
   import {BeerconomyService} from "./services/beerconomy-service";
   import TitleBar from "./components/TitleBar.svelte";
   import Main from "./pages/Main.svelte"
@@ -18,6 +19,9 @@
   } else {
     url = import.meta.env.VITE_BACKEND_URL_DEV
   }
+  
+  // clear favourtie
+  preSelectedPlace.set({})
 
   setContext("BeerconomyService", new BeerconomyService(url));
   const beerconomyService = getContext("BeerconomyService");

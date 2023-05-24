@@ -19,7 +19,6 @@
 
   onMount(async () => {
     profile = await beerconomyService.getProfile();
-    console.log(profile);
   });
 
   async function updateComponent() {

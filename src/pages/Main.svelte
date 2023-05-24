@@ -3,11 +3,11 @@
   import { getContext, onMount } from "svelte";
   import Review from "../components/Review.svelte";
   import Place from "../components/Place.svelte";
-  import { fade, blur } from "svelte/transition";
+  import { blur } from "svelte/transition";
+  import { preSelectedPlace } from "../stores";
 
 
   const beerconomyService = getContext("BeerconomyService");
-
   let reviews = [];
   let place;
   let rating;
@@ -21,6 +21,11 @@
     let places = await beerconomyService.getAllPlaces();
     stats.places = places.length;
     stats.reviews = reviews.length;
+
+    if ($preSelectedPlace.place) {
+      place = $preSelectedPlace.place
+      preSelectedPlace.set({ place: {} })
+    }
   });
 
   async function handlePlaceSelected(event) {
@@ -31,7 +36,8 @@
   async function handleReviewAdded() {
     reviews = await beerconomyService.getPlaceReviews(place._id);
   }
-</script>
+
+  </script>
 
 <div in:blur|local>
   <Map on:placeselected={handlePlaceSelected} />
