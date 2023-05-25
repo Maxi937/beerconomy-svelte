@@ -8,7 +8,7 @@
       <div class="navbar-brand">
         <div class="title p-3 is-flex">
           <i style="font-size: 32px; color: rgb(0, 0, 0);" class="fas fa-beer" />
-          <div class="ml-4">Pint Accountant</div>
+          <div class="ml-4">Beerconomy</div>
         </div>
       </div>
       <div class="navbar-menu" id="navMenu">
